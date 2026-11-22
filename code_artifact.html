@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 【修改這裡】網頁標題與 SEO 描述 -->
+    <title>鄭德忠 De-Zhong Zheng | 龍華科技大學 · 個人作品集與學習歷程</title>
+    <meta name="description" content="鄭德忠（De-Zhong Zheng）的個人網站。現就讀於龍華科技大學（Lunghwa University of Science and Technology），熱愛程式開發、網頁技術與實務專題製作。">
+
+    <!-- 引入 Tailwind CSS (透過 CDN 載入，無需本地編譯) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts (Inter、JetBrains Mono 程式碼字體與思源黑體 Noto Sans TC) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- 引入 FontAwesome 圖示庫 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind 自訂設定：清新科技大學生作品集配色（午夜深藍、科技藍 Azure Blue、青色 Cyan） -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans TC', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        midnight: {
+                            800: '#1E293B',
+                            900: '#0F172A',
+                            950: '#0B1120',
+                        }
+                    },
+                    animation: {
+                        'blink': 'blink 1s step-end infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blink: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* 自訂滾動條樣式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(148, 163, 184, 0.45);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.75);
+        }
+
+        /* 滾動進場動畫初始狀態 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 科技感微網格背景 */
+        .bg-tech-grid {
+            background-size: 36px 36px;
+            background-image: 
+                linear-gradient(to right, rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+        }
+        .dark .bg-tech-grid {
+            background-image: 
+                linear-gradient(to right, rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="bg-[#F8FAFC] text-slate-800 dark:bg-[#0B1120] dark:text-slate-100 transition-colors duration-300 antialiased selection:bg-blue-600 selection:text-white">
+
+    <!-- ==================== 1. 頂部導覽列 (Navigation) ==================== -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/85 dark:bg-[#0B1120]/85 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- 【修改這裡】左上角個人品牌標誌與姓名 -->
+                <a href="#home" class="flex items-center gap-2.5 group">
+                    <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center text-white font-mono font-bold text-sm shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+                        &lt;DZ/&gt;
+                    </div>
+                    <span class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white">
+                        鄭德忠 <span class="hidden sm:inline font-mono text-xs font-medium text-blue-600 dark:text-cyan-400 ml-1">De-Zhong</span>
+                    </span>
+                </a>
+
+                <!-- 桌面版導覽連結 -->
+                <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    <a href="#about" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">關於我與學歷</a>
+                    <a href="#skills" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">技術與能力</a>
+                    <a href="#projects" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">專題與經歷</a>
+                    <a href="#contact" class="hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">聯絡方式</a>
+                </nav>
+
+                <!-- 右側操作區：深淺色切換 & 手機版漢堡選單 -->
+                <div class="flex items-center gap-2.5">
+                    <!-- 深淺色主題切換按鈕 -->
+                    <button id="theme-toggle" aria-label="切換深色或淺色模式" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-cyan-400 hover:border-blue-500/50 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i id="theme-icon-sun" class="fa-solid fa-sun hidden text-amber-400 text-sm"></i>
+                        <i id="theme-icon-moon" class="fa-solid fa-moon text-slate-700 text-sm"></i>
+                    </button>
+
+                    <!-- 手機版選單開啟按鈕 -->
+                    <button id="mobile-menu-btn" aria-label="開啟導覽選單" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700 text-slate-700 dark:text-slate-200 transition-all">
+                        <i class="fa-solid fa-bars text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手機版下拉導覽選單 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-4 space-y-1 shadow-xl">
+            <a href="#about" class="mobile-link block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">關於我與學歷</a>
+            <a href="#skills" class="mobile-link block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">技術與能力</a>
+            <a href="#projects" class="mobile-link block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">專題與經歷</a>
+            <a href="#contact" class="mobile-link block px-3 py-2.5 rounded-xl text-base font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800">聯絡方式</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- ==================== 2. 首頁主視覺 (Hero Section) ==================== -->
+        <section id="home" class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-tech-grid">
+            <!-- 背景裝飾光暈 -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/15 dark:bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[320px] h-[320px] bg-cyan-400/15 dark:bg-cyan-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <!-- 學校與狀態徽章 -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-cyan-300 text-xs sm:text-sm font-medium mb-8 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-cyan-500 animate-ping"></span>
+                    <span>龍華科技大學 · Lunghwa University of Science and Technology</span>
+                </div>
+
+                <!-- 頭像區塊 -->
+                <div class="mb-7 flex justify-center">
+                    <div class="relative group animate-float" title="將您的個人照片命名為 avatar.jpg 並放入 GitHub 儲存庫根目錄即可自動替換">
+                        <!-- 外層科技藍漸層光環 -->
+                        <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-full p-1 bg-gradient-to-tr from-blue-600 via-cyan-400 to-indigo-500 shadow-xl shadow-blue-500/20">
+                            <div class="w-full h-full rounded-full bg-slate-900 overflow-hidden relative flex items-center justify-center">
+                                <!-- 
+                                    【修改這裡：如何放上您自己的照片？】
+                                    1. 由於網路上目前沒有公開的個人大頭照，這裡預設使用內嵌的幾何開發者 SVG 頭像。
+                                    2. 您只需將自己的照片命名為 avatar.jpg，並與本 index.html 一起上傳到 GitHub 儲存庫根目錄，網頁就會自動載入您的照片！
+                                    3. 若尚未上傳 avatar.jpg，onerror 會自動無縫顯示下方內嵌的幾何學生開發者頭像，絕不破圖。
+                                -->
+                                <img 
+                                    src="./avatar.jpg" 
+                                    alt="鄭德忠 De-Zhong Zheng 個人頭像" 
+                                    class="w-full h-full object-cover"
+                                    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20200%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22bg%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%22100%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%230F172A%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%231E3A8A%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22accent%22%20x1%3D%220%25%22%20y1%3D%220%25%22%20x2%3D%22100%25%22%20y2%3D%220%25%22%3E%3Cstop%20offset%3D%220%25%22%20stop-color%3D%22%233B82F6%22%2F%3E%3Cstop%20offset%3D%22100%25%22%20stop-color%3D%22%2306B6D4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22200%22%20height%3D%22200%22%20fill%3D%22url(%23bg)%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%22100%22%20r%3D%2286%22%20fill%3D%22none%22%20stroke%3D%22%2338BDF8%22%20stroke-width%3D%221.5%22%20stroke-dasharray%3D%226%206%22%20opacity%3D%220.4%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2274%22%20r%3D%2228%22%20fill%3D%22url(%23accent)%22%20opacity%3D%220.9%22%2F%3E%3Cpath%20d%3D%22M46%20168%20C46%20132%2070%20114%20100%20114%20C130%20114%20154%20132%20154%20168%22%20fill%3D%22url(%23accent)%22%20opacity%3D%220.9%22%2F%3E%3Crect%20x%3D%2264%22%20y%3D%22146%22%20width%3D%2272%22%20height%3D%2224%22%20rx%3D%226%22%20fill%3D%22%230B1120%22%20stroke%3D%22%2322D3EE%22%20stroke-width%3D%221.5%22%2F%3E%3Ctext%20x%3D%22100%22%20y%3D%22162%22%20font-family%3D%22monospace%22%20font-size%3D%2212%22%20font-weight%3D%22bold%22%20fill%3D%22%2322D3EE%22%20text-anchor%3D%22middle%22%3E%26lt%3BLHU%20DEV%2F%26gt%3B%3C%2Ftext%3E%3C%2Fsvg%3E';"
+                                >
+                            </div>
+                        </div>
+                        <!-- 右下角學生開發者徽章 -->
+                        <div class="absolute bottom-1 right-1 px-2.5 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-cyan-500/40 shadow-md flex items-center gap-1.5 text-xs font-mono font-semibold text-blue-600 dark:text-cyan-400">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>LHU</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 【修改這裡】主標題姓名與英文副標題 -->
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
+                    鄭德忠
+                </h1>
+                <p class="font-mono text-sm sm:text-base md:text-lg font-medium text-blue-600 dark:text-cyan-400 mb-4">
+                    De-Zhong Zheng &nbsp;|&nbsp; 龍華科技大學學生
+                </p>
+
+                <!-- 動態打字機副標題 (文字陣列可於下方 JavaScript 修改) -->
+                <div class="h-9 sm:h-10 flex items-center justify-center text-base sm:text-xl font-medium text-slate-600 dark:text-slate-300 mb-6">
+                    <span>我是&nbsp;</span>
+                    <span id="typewriter-text" class="text-blue-600 dark:text-cyan-400 font-semibold"></span>
+                    <span class="inline-block w-0.5 h-5 sm:h-6 bg-blue-600 dark:bg-cyan-400 ml-1 animate-blink"></span>
+                </div>
+
+                <!-- 【修改這裡】簡短自我介紹 -->
+                <p class="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-slate-600 dark:text-slate-400 leading-relaxed mb-9">
+                    就讀於台灣桃園龍華科技大學，專注於網頁開發、程式設計與實務專題應用。喜歡透過動手寫程式解決問題，並持續透過專案實作累積全端開發與團隊協作經驗。
+                </p>
+
+                <!-- 快速行動按鈕 (CTA) -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-10">
+                    <a href="#projects" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold shadow-lg shadow-blue-600/25 transition-all flex items-center justify-center gap-2">
+                        <span>瀏覽專題與學習歷程</span>
+                        <i class="fa-solid fa-arrow-down text-xs"></i>
+                    </a>
+                    <a href="#contact" class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-semibold border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-cyan-400 shadow-sm transition-all flex items-center justify-center gap-2">
+                        <i class="fa-regular fa-paper-plane text-blue-600 dark:text-cyan-400"></i>
+                        <span>聯絡我</span>
+                    </a>
+                </div>
+
+                <!-- 【修改這裡】社群帳號連結 -->
+                <div class="flex items-center justify-center gap-4">
+                    <a href="https://github.com/" target="_blank" rel="noopener noreferrer" aria-label="GitHub" class="w-11 h-11 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all shadow-sm">
+                        <i class="fa-brands fa-github text-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-11 h-11 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all shadow-sm">
+                        <i class="fa-brands fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="w-11 h-11 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 hover:-translate-y-1 transition-all shadow-sm">
+                        <i class="fa-brands fa-instagram text-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 3. 關於我與學歷 (About & Education) ==================== -->
+        <section id="about" class="py-20 sm:py-28 border-t border-slate-200/80 dark:border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <div class="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-mono font-semibold text-xs sm:text-sm tracking-wider uppercase mb-2">
+                        <i class="fa-solid fa-user-graduate"></i>
+                        <span>About & Education</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-12">關於我與學歷背景</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+                    <!-- 左側：個人學習故事與介紹（可直接修改文字內容） -->
+                    <div class="lg:col-span-7 space-y-5 text-slate-600 dark:text-slate-300 leading-relaxed text-base sm:text-lg reveal">
+                        <!-- 【修改這裡】請依據您的系所、年級、社團或競賽經驗修改以下段落 -->
+                        <p>
+                            你好！我是<strong class="text-slate-900 dark:text-white font-semibold">鄭德忠（De-Zhong Zheng）</strong>，目前就讀於位於桃園市龜山區的<strong class="text-blue-600 dark:text-cyan-400 font-semibold">龍華科技大學（Lunghwa University of Science and Technology）</strong>。
+                        </p>
+                        <p>
+                            在學期間，我積極將課堂上的理論知識轉化為實際可運作的系統與網頁專案。從基礎演算法邏輯、前端互動介面設計到後端資料處理，我都保持高度好奇心，享受將構想一步步實作出來的成就感。
+                        </p>
+                        <p>
+                            除了日常課程與實務專題外，我也習慣利用 Git 與 GitHub 管理程式碼版本，並持續自學現代化開發工具，期許自己成為兼具技術深度與團隊溝通力的工程人才。
+                        </p>
+
+                        <!-- 個人特質亮點小卡 -->
+                        <div class="pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                                <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/70 text-blue-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-code"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-slate-900 dark:text-white text-base">重視實作與品質</h3>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">從實務專題中打磨程式架構與除錯能力</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3.5 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                                <div class="w-10 h-10 rounded-xl bg-cyan-50 dark:bg-cyan-950/70 text-cyan-600 dark:text-cyan-400 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-people-group"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-slate-900 dark:text-white text-base">樂於團隊協作</h3>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">熟悉專題分工、文件撰寫與成果簡報展示</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右側：學歷與學習方向結構化卡片 -->
+                    <div class="lg:col-span-5 space-y-5 reveal">
+                        <!-- 學歷卡片 -->
+                        <div class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm relative overflow-hidden">
+                            <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-bl-full pointer-events-none"></div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="px-3 py-1 rounded-full text-xs font-mono font-semibold bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-cyan-400 border border-blue-200/60 dark:border-blue-800/60">
+                                    在學中 · Education
+                                </span>
+                                <span class="text-xs text-slate-400 font-mono">Taoyuan, Taiwan</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 dark:text-white">
+                                龍華科技大學
+                            </h3>
+                            <p class="text-xs font-mono text-slate-500 dark:text-slate-400 mb-3">
+                                Lunghwa University of Science and Technology
+                            </p>
+                            <!-- 【修改這裡】請填入您的具體系所與年級，例如：資訊網路工程系 / 電子工程系 / 資訊管理系 -->
+                            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/60 dark:border-slate-700/60 text-sm">
+                                <div class="font-semibold text-slate-800 dark:text-slate-200">
+                                    系所：【修改這裡：請填入您的就讀系所，如資訊工程系】
+                                </div>
+                                <div class="text-slate-500 dark:text-slate-400 mt-1 text-xs">
+                                    學位：學士班（在學中） · 桃園市龜山區
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 學習方向與目標卡片 -->
+                        <div class="p-6 sm:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-3 flex items-center gap-2">
+                                <i class="fa-solid fa-compass text-blue-600 dark:text-cyan-400"></i>
+                                <span>核心學習方向</span>
+                            </h3>
+                            <ul class="space-y-2.5 text-sm text-slate-600 dark:text-slate-300">
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-cyan-500 text-xs"></i>
+                                    <span>響應式網頁前端開發與使用者介面設計</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-cyan-500 text-xs"></i>
+                                    <span>程式語言邏輯訓練與資料結構基礎應用</span>
+                                </li>
+                                <li class="flex items-center gap-2.5">
+                                    <i class="fa-solid fa-check text-cyan-500 text-xs"></i>
+                                    <span>校園實務專題系統整合與雲端部署實作</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. 技術與核心能力 (Skills & Tech Stack) ==================== -->
+        <section id="skills" class="py-20 sm:py-28 bg-slate-100/70 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <div class="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-mono font-semibold text-xs sm:text-sm tracking-wider uppercase mb-2">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Skills & Tech Stack</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">技術與核心能力</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mb-12">
+                        透過大學課程訓練與自主專案實作累積的開發工具與軟實力（可依修課內容自由增減標籤）。
+                    </p>
+                </div>
+
+                <!-- 【修改這裡】三大技能分類卡片，可依您的實際修課內容調整標籤 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- 卡片 1：程式與網頁開發 -->
+                    <div class="p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:-translate-y-1 hover:border-blue-500/40 dark:hover:border-cyan-500/40 transition-all reveal">
+                        <div class="w-12 h-12 rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">程式與網頁開發</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-5">掌握基礎程式邏輯與現代化響應式網頁切版互動技術。</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors">HTML5 / CSS3</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors">JavaScript (ES6+)</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors">Python</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors">C / C++</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 transition-colors">Tailwind CSS</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 2：工具與開發環境 -->
+                    <div class="p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:-translate-y-1 hover:border-cyan-500/40 transition-all reveal">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-50 dark:bg-cyan-950/80 text-cyan-600 dark:text-cyan-400 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-terminal"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">工具與開發環境</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-5">善用版本控制與開發者工具提升專題開發與除錯效率。</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-600 transition-colors">Git & GitHub</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-600 transition-colors">GitHub Pages</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-600 transition-colors">VS Code</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-600 transition-colors">Linux 基礎指令</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-mono font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-cyan-600 hover:text-white dark:hover:bg-cyan-600 transition-colors">MySQL / 資料庫基礎</span>
+                        </div>
+                    </div>
+
+                    <!-- 卡片 3：跨領域與軟實力 -->
+                    <div class="p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm hover:-translate-y-1 hover:border-indigo-500/40 transition-all reveal">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-2">跨領域與軟實力</h3>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mb-5">結合實務專題製作流程，具備良好溝通表達與問題分析能力。</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors">實務專題製作</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors">技術文件與報告撰寫</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors">團隊溝通協作</span>
+                            <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-indigo-600 hover:text-white dark:hover:bg-indigo-600 transition-colors">專題簡報發表</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 5. 專題作品與校園經歷 (Projects & Campus Experience) ==================== -->
+        <section id="projects" class="py-20 sm:py-28 border-t border-slate-200/80 dark:border-slate-800/80">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <div class="flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-mono font-semibold text-xs sm:text-sm tracking-wider uppercase mb-2">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <span>Projects & Campus Experience</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">專題作品與校園經歷</h2>
+                    <p class="text-slate-600 dark:text-slate-400 max-w-2xl mb-12">
+                        精選大學期間的實務專題、網頁開發實作與課程專案紀錄（可直接替換為您的 GitHub 專案連結）。
+                    </p>
+                </div>
+
+                <!-- 【修改這裡】3 張專題作品卡片，可依實際完成的作品修改標題、說明與連結 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- 作品卡片 1：校園實務專題系統開發 -->
+                    <article class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-500/40 dark:hover:border-cyan-500/40 transition-all flex flex-col reveal">
+                        <div class="h-44 bg-gradient-to-br from-blue-600 to-cyan-600 p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex justify-between items-center z-10">
+                                <span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-white text-xs font-mono">Capstone Project</span>
+                                <i class="fa-solid fa-microchip text-white/80 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white z-10">校園實務專題系統開發</h3>
+                            <div class="absolute -bottom-8 -right-8 w-36 h-36 bg-white/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <!-- 【修改這裡】填入您的畢業專題或實務專題介紹 -->
+                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                    結合網頁介面與後端資料處理的實務專題系統，負責前端頁面架構設計、功能模組串接與系統測試，解決校園或日常生活中的實際應用需求。
+                                </p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">Web App</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">Python / JS</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">團隊專題</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-sm font-medium">
+                                <!-- 【修改這裡】替換為此專題的 GitHub 網址 -->
+                                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 flex items-center gap-1.5 transition-colors">
+                                    <i class="fa-brands fa-github"></i>
+                                    <span>原始碼</span>
+                                </a>
+                                <a href="#contact" class="text-blue-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5 ml-auto">
+                                    <span>專題洽詢</span>
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 作品卡片 2：個人作品集網站與 GitHub Pages 部署 -->
+                    <article class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-500/40 dark:hover:border-cyan-500/40 transition-all flex flex-col reveal">
+                        <div class="h-44 bg-gradient-to-br from-slate-800 via-blue-900 to-indigo-900 p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex justify-between items-center z-10">
+                                <span class="px-2.5 py-1 rounded-md bg-white/15 backdrop-blur-sm text-cyan-300 text-xs font-mono">Web Portfolio</span>
+                                <i class="fa-solid fa-globe text-cyan-300/90 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white z-10">個人介紹網站與雲端部署</h3>
+                            <div class="absolute -bottom-8 -right-8 w-36 h-36 bg-cyan-400/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                    採用單一 HTML 檔案架構打造之個人品牌與學習歷程網站，支援深淺色主題切換、RWD 響應式版面與滾動互動動畫，並透過 GitHub Pages 完成自動化靜態部署。
+                                </p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">HTML5</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">Tailwind CSS</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">GitHub Pages</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-sm font-medium">
+                                <!-- 【修改這裡】替換為您存放此網站的 GitHub Repository 網址 -->
+                                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 flex items-center gap-1.5 transition-colors">
+                                    <i class="fa-brands fa-github"></i>
+                                    <span>Repository</span>
+                                </a>
+                                <a href="#home" class="text-blue-600 dark:text-cyan-400 hover:underline flex items-center gap-1.5 ml-auto">
+                                    <span>目前頁面</span>
+                                    <i class="fa-solid fa-arrow-up text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- 作品卡片 3：課程專案與程式實作紀錄 -->
+                    <article class="group rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl hover:border-blue-500/40 dark:hover:border-cyan-500/40 transition-all flex flex-col reveal">
+                        <div class="h-44 bg-gradient-to-br from-cyan-600 to-teal-700 p-6 flex flex-col justify-between relative overflow-hidden">
+                            <div class="flex justify-between items-center z-10">
+                                <span class="px-2.5 py-1 rounded-md bg-white/20 backdrop-blur-sm text-white text-xs font-mono">Coursework & Labs</span>
+                                <i class="fa-solid fa-code-branch text-white/85 text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white z-10">課程專案與程式實作紀錄</h3>
+                            <div class="absolute -bottom-8 -right-8 w-36 h-36 bg-white/10 rounded-full group-hover:scale-125 transition-transform duration-500"></div>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <!-- 【修改這裡】可填寫您參加過的程式競賽、證照考取或課程期末專案 -->
+                                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-4">
+                                    整理龍華科大修課期間的程式設計練習、資料庫設計專題與技術筆記，透過系統化的程式碼註解與文件整理，記錄從基礎語法到專案開發的成長軌跡。
+                                </p>
+                                <div class="flex flex-wrap gap-1.5 mb-6">
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">Python / C++</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">Git 版本控制</span>
+                                    <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-cyan-400">學習筆記</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 pt-4 border-t border-slate-100 dark:border-slate-800 text-sm font-medium">
+                                <!-- 【修改這裡】替換為您的 GitHub 連結 -->
+                                <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-cyan-400 flex items-center gap-1.5 transition-colors">
+                                    <i class="fa-brands fa-github"></i>
+                                    <span>查看更多作品</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 6. 聯絡方式與社群 (Contact & GitHub) ==================== -->
+        <section id="contact" class="py-20 sm:py-28 bg-slate-100/70 dark:bg-slate-900/40 border-t border-slate-200/80 dark:border-slate-800/80">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center reveal">
+                <div class="inline-flex items-center gap-2 text-blue-600 dark:text-cyan-400 font-mono font-semibold text-xs sm:text-sm tracking-wider uppercase mb-2">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>Contact & Social</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mb-4">與我聯絡</h2>
+                <p class="text-slate-600 dark:text-slate-400 max-w-xl mx-auto mb-10 text-base sm:text-lg">
+                    無論是專題合作交流、技術討論或實習機會洽詢，都歡迎隨時透過 Email 或 GitHub 聯繫我！
+                </p>
+
+                <!-- 聯絡資訊卡片 -->
+                <div class="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xl">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-center md:text-left">
+                            <span class="text-xs font-mono font-semibold uppercase tracking-wider text-blue-600 dark:text-cyan-400">電子郵件 · Email Address</span>
+                            <!-- 【修改這裡】請替換為您的常用聯絡 Email（例如學校信箱或個人 Gmail） -->
+                            <div id="email-text" class="text-lg sm:text-2xl font-mono font-bold text-slate-900 dark:text-white mt-1 select-all">
+                                dezhong.zheng@example.com
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">龍華科技大學 · 台灣桃園</p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+                            <!-- 一鍵複製 Email 按鈕 -->
+                            <button id="copy-email-btn" type="button" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md shadow-blue-600/20 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                                <i class="fa-regular fa-copy"></i>
+                                <span>複製 Email</span>
+                            </button>
+
+                            <!-- 直接開啟郵件軟體按鈕（【修改這裡】同步更新 mailto 網址） -->
+                            <a href="mailto:dezhong.zheng@example.com" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane text-blue-600 dark:text-cyan-400"></i>
+                                <span>發送信件</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 【修改這裡】社群平台快速入口列 -->
+                    <div class="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-600 dark:text-slate-400">
+                        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/70 hover:text-blue-600 dark:hover:text-cyan-400 font-medium transition-colors">
+                            <i class="fa-brands fa-github text-base"></i>
+                            <span>GitHub 個人主頁</span>
+                        </a>
+                        <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/70 hover:text-blue-600 dark:hover:text-cyan-400 font-medium transition-colors">
+                            <i class="fa-brands fa-linkedin text-base"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/70 hover:text-blue-600 dark:hover:text-cyan-400 font-medium transition-colors">
+                            <i class="fa-brands fa-instagram text-base"></i>
+                            <span>Instagram</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== 7. 頁尾 (Footer) ==================== -->
+    <footer class="py-8 border-t border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0B1120]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left">
+                &copy; <span id="current-year"></span> 鄭德忠 De-Zhong Zheng · 龍華科技大學. Hosted on GitHub Pages.
+            </p>
+
+            <!-- 回到頂部按鈕 -->
+            <a href="#home" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-900 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors">
+                <span>回到頂部</span>
+                <i class="fa-solid fa-arrow-up text-xs"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- 複製成功提示 Toast 通知框 -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2.5 px-5 py-3.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-2xl font-medium text-sm">
+        <i class="fa-solid fa-circle-check text-cyan-400 dark:text-blue-600 text-base"></i>
+        <span>已複製 Email 至剪貼簿！</span>
+    </div>
+
+    <!-- ==================== JavaScript 互動邏輯 ==================== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 自動更新頁尾年份
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+
+            // 2. 深色 / 淺色模式切換邏輯
+            const htmlEl = document.documentElement;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const sunIcon = document.getElementById('theme-icon-sun');
+            const moonIcon = document.getElementById('theme-icon-moon');
+
+            function updateThemeIcons(isDark) {
+                if (isDark) {
+                    sunIcon.classList.remove('hidden');
+                    moonIcon.classList.add('hidden');
+                } else {
+                    sunIcon.classList.add('hidden');
+                    moonIcon.classList.remove('hidden');
+                }
+            }
+
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                htmlEl.classList.add('dark');
+                updateThemeIcons(true);
+            } else {
+                htmlEl.classList.remove('dark');
+                updateThemeIcons(false);
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = htmlEl.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                updateThemeIcons(isDark);
+            });
+
+            // 3. 手機版漢堡選單開關
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // 4. 動態打字機效果
+            // 【修改這裡】可自由修改首頁輪播的個人身份與專長關鍵字
+            const typewriterTexts = [
+                '龍華科技大學在學學生',
+                '全端與網頁開發學習者',
+                '專題實作與技術探索者',
+                '熱衷解決問題的開發者'
+            ];
+            const typewriterEl = document.getElementById('typewriter-text');
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function typeEffect() {
+                const currentText = typewriterTexts[textIndex];
+                if (isDeleting) {
+                    typewriterEl.textContent = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriterEl.textContent = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let typingSpeed = isDeleting ? 40 : 90;
+
+                if (!isDeleting && charIndex === currentText.length) {
+                    typingSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % typewriterTexts.length;
+                    typingSpeed = 350;
+                }
+
+                setTimeout(typeEffect, typingSpeed);
+            }
+            typeEffect();
+
+            // 5. 一鍵複製 Email 功能 (使用相容性最高的 execCommand)
+            const copyEmailBtn = document.getElementById('copy-email-btn');
+            const emailText = document.getElementById('email-text').textContent.trim();
+            const toastEl = document.getElementById('toast');
+            let toastTimeout;
+
+            function showToast() {
+                clearTimeout(toastTimeout);
+                toastEl.classList.remove('translate-y-20', 'opacity-0');
+                toastTimeout = setTimeout(() => {
+                    toastEl.classList.add('translate-y-20', 'opacity-0');
+                }, 2800);
+            }
+
+            copyEmailBtn.addEventListener('click', () => {
+                const tempInput = document.createElement('textarea');
+                tempInput.value = emailText;
+                tempInput.style.position = 'fixed';
+                tempInput.style.opacity = '0';
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                } catch (err) {
+                    console.error('複製失敗:', err);
+                }
+                document.body.removeChild(tempInput);
+            });
+
+            // 6. 滾動進場動畫 (Scroll Reveal)
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.12,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+        });
+    </script>
+</body>
+</html>
